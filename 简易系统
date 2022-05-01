@@ -1,0 +1,187 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct student
+{
+	int xuehao;
+	int age;
+	char name[100];
+	struct student* xia;
+};
+
+struct student*tou=NULL;
+struct student*nifan=NULL;
+
+
+void chengxu(struct student*biao)
+{
+	printf("学号：%d,年龄：%d 姓名：%s\n",biao->xuehao,biao->age,biao->name);
+}
+
+
+void deleate(struct student*tou)
+{
+	while(tou!=NULL)
+	{
+		chengxu(tou);
+		tou=tou->xia;
+	}
+}
+
+
+
+
+void zengjia()
+{
+
+	struct student*nodf=(struct student*)malloc(sizeof(struct student));
+
+	printf("请输入学号：");
+	scanf("%d",&nodf->xuehao);
+	printf("请输入年龄：");
+	scanf("%d",&nodf->age);
+	printf("请输入姓名：");
+	scanf("%s",&nodf->name);
+	nodf->xia=NULL;
+	if(tou==NULL)
+	{
+
+		tou=nodf;
+		nifan=nodf;
+	
+	}
+	else
+	{
+		nifan->xia=nodf;
+		nifan=nodf;
+
+	}
+	printf("添加完成");
+}
+
+
+
+void found()
+{
+	int hao;
+	printf("请输入你要查询的学生号：");
+	scanf("%d",&hao);
+	struct student*biao=tou;
+	int renshu=0;
+	while(biao!=NULL)
+	{
+		if(biao->xuehao==hao)
+		{
+			chengxu(biao);
+			renshu=1;
+			break;
+		}
+		else
+		{
+			biao=biao->xia;
+		}
+		if(renshu=0)
+		{
+			printf("目前没有该学生");
+		}
+	}
+}
+
+
+
+void daying()
+{
+	if(tou==NULL)
+	{
+		printf("无学生");
+
+	}
+	else
+	{
+		deleate(tou);
+	}
+}
+
+
+
+void shanchu()
+{
+
+	printf("请输入要删除的学生号：");
+	int hao;
+	scanf("%d",&hao);
+	struct student*biao=tou;
+	if(biao->xuehao==hao)
+	{
+		tou=tou->xia;
+		free(biao);
+		biao=NULL;
+		
+	}
+
+	struct student*pre=biao;
+	biao=biao->xia;
+	while(biao!=NULL)
+	{
+      if(biao->xuehao==hao)
+	  {
+		  struct student*xia=biao->xia;
+		  pre->xia=xia;
+		  free(biao);
+		  biao=NULL;
+		  printf("删除成功");
+		  break;
+
+	  }
+	  else
+	  {
+		  pre=biao;
+		  biao=biao->xia;
+	  }
+	  printf("不存在该学生！");
+	}
+
+}
+
+int main()
+{
+	printf("欢迎使用简易学生系统！\n");
+	printf("按1添加学生！\n");
+	printf("按2查询学生！\n");
+    printf("按3打印所有学生！\n");
+	printf("按4删除学生！\n");
+	printf("按5退出系统\n");
+	
+	while(1)
+	{
+		char c;
+		scanf("%c",&c);
+		switch(c)
+		{
+			case '1':
+				zengjia();
+				break;
+			case '2':
+				found();
+				break;
+			case '3':
+				daying();
+				break;
+			case '4':
+				shanchu();
+				break;
+			case '5':
+				printf("感谢你的使用！");
+				exit(0);
+
+			default:
+				break;
+		}
+	}
+	
+
+	
+	
+	
+	return 0;}
